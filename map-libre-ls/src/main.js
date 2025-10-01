@@ -184,6 +184,77 @@ const map = new maplibregl.Map({
   },
 });
 
+// When the map loads, add the GeoJSON source and layers
+map.on("load", () => {
+  // Add sky style to the map, giving an atmospheric effect
+  map.setSky({
+    "sky-color": "#61C2FEFF",
+    "sky-horizon-blend": 0.5,
+    "horizon-color": "#EBF1F4FF",
+    "horizon-fog-blend": 0.5,
+    "fog-color": "#B5B5B5FF",
+    "fog-ground-blend": 0.5,
+    "atmosphere-blend": [
+      "interpolate",
+      ["linear"],
+      ["zoom"],
+      0,
+      1,
+      10,
+      1,
+      12,
+      0,
+    ],
+  });
+
+  // GeoJSON layers served from ArcGIS Rest Services
+  map.addSource("interstate", {
+    type: "geojson",
+    data: "https://maps.kytc.ky.gov/arcgis/rest/services/Layers/Roads_Ext_Prd/MapServer/0/query?outFields=*&where=1%3D1&f=geojson",
+  });
+
+  // Style points as circles
+  map.addLayer({
+    id: "interstate",
+    type: "line",
+    source: "interstate",
+    paint: {
+      "line-color": "#CD0101FF",
+      "line-width": 1.5,
+    },
+  });
+
+  // Add labels for the cottages using the BL_NAME attribute and same source
+  // map.addLayer({
+  //   id: "cottages-labels",
+  //   type: "symbol",
+  //   source: "cottages",
+  //   layout: {
+  //     "text-field": ["get", "RD_NAME"],
+  //     "text-font": ["Open Sans Bold"], // Font must be available in the glyphs URL
+  //     "text-size": 12,
+  //     "text-offset": [0, 1.2],
+  //     "text-anchor": "top",
+  //   },
+  //   paint: {
+  //     "text-color": "#000000",
+  //     "text-halo-color": "#FFFFFF",
+  //     "text-halo-width": 1,
+  //     "text-halo-blur": 1,
+  //     "text-opacity": {
+  //       base: 1,
+  //       // Labels show at zoom 17 and above
+  //       stops: [
+  //         [17, 0],
+  //         [17.1, 1],
+  //       ],
+  //     },
+  //   },
+  // });
+
+  // More soon...
+});
+
 // Add basic map controls
 map.addControl(new maplibregl.NavigationControl(), "top-left");
 map.addControl(new maplibregl.FullscreenControl());
