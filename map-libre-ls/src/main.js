@@ -210,12 +210,12 @@ map.on("load", () => {
   // GeoJSON layers locally stored
   map.addSource("landslides", {
     type: "geojson",
-    data: "/assets/data/d12_KGS_landslides.geojson",
+    data: "assets/data/d12_KGS_landslides.geojson",
   });
 
   map.addSource("counties", {
     type: "geojson",
-    data: "/assets/data/kytc-d12-counties.geojson",
+    data: "assets/data/kytc-d12-counties.geojson",
   });
 
   // Style points as circles
