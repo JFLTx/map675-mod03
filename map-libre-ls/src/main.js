@@ -208,14 +208,17 @@ map.on("load", () => {
   });
 
   // GeoJSON layers locally stored
+  // Make sure data is in the "public" folder to be served correctly
+  // when it's built for production
+  // The "public" folder is the root of the web server
   map.addSource("landslides", {
     type: "geojson",
-    data: "/assets/data/d12_KGS_landslides.geojson",
+    data: "assets/data/d12_KGS_landslides.geojson",
   });
 
   map.addSource("counties", {
     type: "geojson",
-    data: "/assets/data/kytc-d12-counties.geojson",
+    data: "assets/data/kytc-d12-counties.geojson",
   });
 
   // Style points as circles
