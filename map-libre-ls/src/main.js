@@ -4,7 +4,7 @@ import maplibregl from "maplibre-gl";
 
 const map = new maplibregl.Map({
   container: "map",
-  center: [-84.5, 38], // starting position [lng, lat]
+  center: [-82.7673, 37.5716], // starting position [lng, lat]
   zoom: 9, // starting zoom
   maxPitch: 85, // max pitch allowed
   hash: true, // sync map position with URL
@@ -207,30 +207,38 @@ map.on("load", () => {
     ],
   });
 
-  // GeoJSON layers served from ArcGIS Rest Services
-  map.addSource("interstate", {
+  // GeoJSON layers locally stored
+  map.addSource("landslides", {
     type: "geojson",
-    data: "https://maps.kytc.ky.gov/arcgis/rest/services/Layers/Roads_Ext_Prd/MapServer/0/query?outFields=*&where=1%3D1&f=geojson",
+    data: "/assets/data/d12_KGS_landslides.geojson",
+  });
+
+  map.addSource("counties", {
+    type: "geojson",
+    data: "/assets/data/kytc-d12-counties.geojson",
   });
 
   // Style points as circles
   map.addLayer({
-    id: "interstate",
-    type: "line",
-    source: "interstate",
+    id: "landslides",
+    type: "circle",
+    source: "landslides",
     paint: {
-      "line-color": "#CD0101FF",
-      "line-width": 1.5,
+      "circle-radius": 6,
+      "circle-color": "#CD0101FF",
+      "circle-stroke-color": "#FFFFFF",
+      "circle-stroke-width": 1,
+      "circle-opacity": 0.75,
     },
   });
 
-  // Add labels for the cottages using the BL_NAME attribute and same source
+  // Add labels for landslides
   // map.addLayer({
-  //   id: "cottages-labels",
+  //   id: "landslides-labels",
   //   type: "symbol",
-  //   source: "cottages",
+  //   source: "landslides",
   //   layout: {
-  //     "text-field": ["get", "RD_NAME"],
+  //     "text-field": ["get", "ID"],
   //     "text-font": ["Open Sans Bold"], // Font must be available in the glyphs URL
   //     "text-size": 12,
   //     "text-offset": [0, 1.2],
@@ -252,7 +260,79 @@ map.on("load", () => {
   //   },
   // });
 
-  // More soon...
+  map.addLayer(
+    {
+      id: "counties-outline",
+      type: "line",
+      source: "counties",
+      layout: {
+        "line-cap": "round",
+        "line-join": "round",
+      },
+      paint: {
+        "line-color": "#53555c",
+        "line-opacity": 0.9,
+        "line-width": [
+          "interpolate",
+          ["linear"],
+          ["zoom"],
+          5,
+          0.6,
+          8,
+          1.2,
+          10,
+          1.8,
+          12,
+          2.4,
+          14,
+          3.0,
+        ],
+      },
+    },
+    "landslides" // ensures that the counties is added before landslides
+  );
+
+  // Add interactivity with popups when hovering over points
+  map.on("mouseenter", "landslides", () => {
+    map.getCanvas().style.cursor = "pointer";
+  });
+
+  // Reset cursor when not hovering over points
+  map.on("mouseleave", "landslides", () => {
+    map.getCanvas().style.cursor = "";
+  });
+
+  // helper function to handle null/undefined/empty feature properties
+  function value(val, text = "Unknown") {
+    return val === null || val === undefined || val == "" ? text : val; // if anything is empty/null/undefined, the string will return "Unknown"
+  }
+
+  // Show popup when clicking on a point
+  map.on("click", "landslides", (e) => {
+    const f = e.features[0].properties; // shorthand the properties values
+    console.log(e.features[0]);
+
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const id = value(f.ID);
+    const county = value(f.County);
+    const unit = value(f.GeologicUnit);
+    const rock = value(f.Lithology);
+    const surfaceGeo = value(f.Surficial_Geology);
+    const position = value(f.Geomorphic_Position);
+    const aspect = value(f.Aspect);
+    const factor = value(f.Contributing_Factor);
+
+    new maplibregl.Popup()
+      .setLngLat(coordinates)
+      .setHTML(
+        `<h2 class="text-xl">KGS Landslide ID: ${id}</h2><p>Landslide in ${county} County, occurred in ${unit}<br>
+        <br>Aspect: ${aspect}
+        <br>Factors: ${factor} <br>
+        <br>Lithology: ${rock}; ${surfaceGeo} surficial geology
+        <br>Geomorphic Position: ${position}</p>`
+      )
+      .addTo(map);
+  });
 });
 
 // Add basic map controls
@@ -287,9 +367,9 @@ map.addControl(
 // Event listeners to monitor map changes
 map.on("move", () => {
   const center = map.getCenter();
-  // console.log(
-  //   `Longitude: ${center.lng.toFixed(4)} Latitude: ${center.lat.toFixed(4)}`
-  // );
+  console.log(
+    `Longitude: ${center.lng.toFixed(4)} Latitude: ${center.lat.toFixed(4)}`
+  );
 });
 
 map.on("zoomend", () => {
