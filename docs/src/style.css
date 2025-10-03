@@ -6,9 +6,9 @@
 /* Font needs to be loaded from an external source */
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-Regular.woff2")
+  src: url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-Regular.woff2")
       format("woff2"),
-    url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-Regular.woff")
+    url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-Regular.woff")
       format("woff");
   font-weight: 400;
   font-style: normal;
@@ -18,9 +18,9 @@
 /* Bold */
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-Bold.woff2")
+  src: url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-Bold.woff2")
       format("woff2"),
-    url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-Bold.woff")
+    url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-Bold.woff")
       format("woff");
   font-weight: 700;
   font-style: normal;
@@ -30,9 +30,9 @@
 /* Italic */
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-Italic.woff2")
+  src: url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-Italic.woff2")
       format("woff2"),
-    url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-Italic.woff")
+    url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-Italic.woff")
       format("woff");
   font-weight: 400;
   font-style: italic;
@@ -42,9 +42,9 @@
 /* Bold Italic */
 @font-face {
   font-family: "OpenDyslexic";
-  src: url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-BoldItalic.woff2")
+  src: url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-BoldItalic.woff2")
       format("woff2"),
-    url("https://jfltx.github.io/map675-mod03/map-libre-ls/assets/fonts/OpenDyslexic-BoldItalic.woff")
+    url("https://jfltx.github.io/map675-mod03/docs/assets/fonts/OpenDyslexic-BoldItalic.woff")
       format("woff");
   font-weight: 700;
   font-style: italic;
