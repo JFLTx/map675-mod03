@@ -1,4 +1,4 @@
-import "maplibre-gl/dist/maplibre-gl.css";
+// import "maplibre-gl/dist/maplibre-gl.css";
 import "./style.css";
 import maplibregl from "maplibre-gl";
 
