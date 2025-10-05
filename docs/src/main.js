@@ -1,6 +1,6 @@
 // import "maplibre-gl/dist/maplibre-gl.css";
 import "./style.css";
-import maplibregl from "maplibre-gl";
+// import maplibregl from "maplibre-gl";
 
 const map = new maplibregl.Map({
   container: "map",
